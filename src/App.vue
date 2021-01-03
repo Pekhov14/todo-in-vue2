@@ -20,11 +20,15 @@ export default {
   data() {
     return {
       todos: [
-        {id: 1, title: 'Хлеб', completed: false},
-        {id: 2, title: 'Молоко', completed: false},
-        {id: 3, title: 'Сыр', completed: false},
+        // {id: 1, title: 'Хлеб', completed: false},
       ]
     }
+  },
+  mounted() {
+    //  уже готов DOM
+    fetch('https://jsonplaceholder.typicode.com/todos?_limit=3')
+        .then(response => response.json())
+        .then(json => this.todos = json)
   },
   methods: {
     removeTodo(id) {
