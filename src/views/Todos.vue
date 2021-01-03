@@ -6,13 +6,20 @@
     <AddTodo
         @add-todo="AddTodo"
     />
+    <br>
+    <select v-model="filter">
+      <option value="all">All</option>
+      <option value="completed">Completed</option>
+      <option value="not-completed">Not Completed</option>
+    </select>
     <hr>
     <Loader v-if="loading"/>
     <TodoList
-        v-else-if="todos.length"
-        v-bind:todos="todos"
+        v-else-if="filteredTodos.length"
+        v-bind:todos="filteredTodos"
         @remove-todo="removeTodo"
     />
+<!--  todos  -->
     <p v-else>Нет тудушек!</p>
   </div>
 </template>
@@ -25,10 +32,9 @@ export default {
   name: 'App',
   data() {
     return {
-      todos: [
-        // {id: 1, title: 'Хлеб', completed: false},
-      ],
-      loading: true
+      todos: [],
+      loading: true,
+      filter: 'all'
     }
   },
   mounted() {
@@ -39,6 +45,28 @@ export default {
           this.todos = json,
           this.loading = false
         })
+  },
+  // watch: {
+  // //  Следим за изменением filter
+  //   filter(value) {
+  //     console.log(value)
+  //   }
+  // },
+  computed: {
+    // computed function логика которая зависит от моделей или переменных которые менеються
+    // computed функции на самом деле переменные
+    filteredTodos() {
+      if (this.filter === 'all') {
+        return this.todos
+      }
+      if (this.filter === 'completed') {
+        return this.todos.filter(t => t.completed)
+      }
+      if (this.filter === 'not-completed') {
+        // t = объект
+        return this.todos.filter(t => !t.completed)
+      }
+    }
   },
   methods: {
     removeTodo(id) {
