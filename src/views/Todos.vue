@@ -55,6 +55,7 @@ export default {
   computed: {
     // computed function логика которая зависит от моделей или переменных которые менеються
     // computed функции на самом деле переменные
+    // eslint-disable-next-line vue/return-in-computed-property
     filteredTodos() {
       if (this.filter === 'all') {
         return this.todos
